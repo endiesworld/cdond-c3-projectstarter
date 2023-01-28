@@ -1,22 +1,22 @@
 ---
-- name: "Create backend app directory"
-  file:
-    path: ~/backend-app
-    state: directory
+# - name: "Create backend app directory"
+#   file:
+#     path: ~/backend-app
+#     state: directory
 
 - name: "Unarchive backend files"
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend-app
+    dest: ~/backend
 
-- name: "Installing Node Dependencies"
-  shell: |
-    cd ~/backend-app
-    npm install
+# - name: "Installing Node Dependencies"
+#   shell: |
+#     cd ~/backend-app
+#     npm install
 - name: "Executing Node app with PM2"
   shell: |
-    cd ~/backend-app/dist
-    cd ../
+    # cd ~/backend-app/dist
+    # cd ../
     # npm install
     # npm run build
     # sudo npm install forever -g
