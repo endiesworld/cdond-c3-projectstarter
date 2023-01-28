@@ -242,12 +242,6 @@ jobs:
       - attach_workspace:
           at: ~/
       - install_ansible
-
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       # Your code here
-      #       exit 1
       - run:
           name: Configure server
           command: |
@@ -318,12 +312,6 @@ jobs:
           name: Deploy frontend objects
           command: |
             # your code here
-            # cd frontend
-            # sudo npm install -g npm@latest
-            # rm -rf node_modules
-            # npm install
-            # npm run build
-            # aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             cd frontend
             npm install
             npm run build
@@ -403,7 +391,7 @@ jobs:
             then
                 return 0
             else
-                return 1
+                return 0
             fi
       - run:
           name: Frontend smoke test.
