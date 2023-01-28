@@ -62,7 +62,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl --insecure "https://kvdb.io/Gihzln9tKaS8UmwtTTnRhb/migration_<<parameters.workflow_id>>")
+            SUCCESS = $(curl --insecure "https://kvdb.io/C2LTVuCTYR3QvjAktxSP2i/migration_<<parameters.workflow_id>>")
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -389,12 +389,7 @@ jobs:
       - install_nodejs
       - install_awscli
       - run:
-          name: Get backend url
-          command: |
-            # your code here
-            - run:
-      - run:
-          name: Backend smoke test.
+          name: Get backend url smoke test.
           command: |
             # your code here
             BACKEND_IP=$(aws ec2 describe-instances \
@@ -424,8 +419,8 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure 
-      - destroy-environment
-      - revert-migrations 
+      # - destroy-environment
+      # - revert-migrations 
 
 #   cloudfront-update:
 #     docker:
