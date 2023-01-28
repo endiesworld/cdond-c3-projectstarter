@@ -454,34 +454,34 @@ jobs:
       - destroy-environment
       - revert-migrations 
 
-cleanup:
-  docker:
-    # Docker image here
-    - image: amazon/aws-cli
-  steps:
-    # Checkout code from git
-    - checkout
-    - run:
-        name: Remove old stacks and bucket contents
-        command: |
-          OLD_WORKFLOW_ID=$(curl https://kvdb.io/C2LTVuCTYR3QvjAktxSP2i/OLD_WORKFLOW_ID)
-          echo "OLD_WORKFLOW_ID=$OLD_WORKFLOW_ID"
-          NEW_WORKFLOW_ID=${CIRCLE_WORKFLOW_ID:0:7}
-          echo "NEW_WORKFLOW_ID=$NEW_WORKFLOW_ID"
-          if [ -z "$OLD_WORKFLOW_ID" ]
-          then
-              echo "No OLD_WORKFLOW_ID found."
-          else
-              if [[ "$NEW_WORKFLOW_ID" != "$OLD_WORKFLOW_ID" ]]
-              then
-                  echo "$OLD_WORKFLOW_ID!=$NEW_WORKFLOW_ID: deleting old stack and files..."
-                  aws s3 rm "s3://udapeople-${OLD_WORKFLOW_ID}" --recursive
-                  aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}"
-                  aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
-              else
-                  echo "$OLD_WORKFLOW_ID==$NEW_WORKFLOW_ID: Stacks are the same, no changes applied"
-              fi
-          fi
+  cleanup:
+    docker:
+      # Docker image here
+      - image: amazon/aws-cli
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Remove old stacks and bucket contents
+          command: |
+            OLD_WORKFLOW_ID=$(curl https://kvdb.io/C2LTVuCTYR3QvjAktxSP2i/OLD_WORKFLOW_ID)
+            echo "OLD_WORKFLOW_ID=$OLD_WORKFLOW_ID"
+            NEW_WORKFLOW_ID=${CIRCLE_WORKFLOW_ID:0:7}
+            echo "NEW_WORKFLOW_ID=$NEW_WORKFLOW_ID"
+            if [ -z "$OLD_WORKFLOW_ID" ]
+            then
+                echo "No OLD_WORKFLOW_ID found."
+            else
+                if [[ "$NEW_WORKFLOW_ID" != "$OLD_WORKFLOW_ID" ]]
+                then
+                    echo "$OLD_WORKFLOW_ID!=$NEW_WORKFLOW_ID: deleting old stack and files..."
+                    aws s3 rm "s3://udapeople-${OLD_WORKFLOW_ID}" --recursive
+                    aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}"
+                    aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
+                else
+                    echo "$OLD_WORKFLOW_ID==$NEW_WORKFLOW_ID: Stacks are the same, no changes applied"
+                fi
+            fi
             
 
 workflows:
