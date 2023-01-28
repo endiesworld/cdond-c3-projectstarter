@@ -436,19 +436,20 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            export OLD_WORKFLOW_ID-$(aws cloudformation \
-            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text)
-            echo "Old workflow ID: $OLD_WORKFLOW_ID"
-            curl https://kvdb.io/C2LTVuCTYR3QvjAktxSP2i/old_workflow_id -d "${OLD_WORKFLOW_ID}"
+            OLD_WORKFLOW_ID=$(aws cloudformation list-exports \
+              --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            echo "OLD_WORKFLOW_ID=$OLD_WORKFLOW_ID"
+            curl https://kvdb.io/C2LTVuCTYR3QvjAktxSP2i/OLD_WORKFLOW_ID -d "${OLD_WORKFLOW_ID}"
       - run:
           name: Update cloudfront distribution
           command: |
             # your code here
             aws cloudformation deploy \
-              --template-file .circleci/files/cloudfront.yml \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-              --stack-name InitialStack
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name InitialStack \
+            --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7} \
+            --tags project=udapeople
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
       - revert-migrations 
