@@ -412,7 +412,7 @@ jobs:
           name: Frontend smoke test.
           command: |
             # your code here
-            FRONTEND_WEBSITE=http://udapeople-${CIIRCLE_WRKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
+            FRONTEND_WEBSITE="http://udapeople-${CIIRCLE_WRKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"
             echo $FRONTEND_WEBSITE
             if curl -s $FRONTEND_WEBSITE | grep "Welcome"
             then
