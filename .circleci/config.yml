@@ -152,7 +152,6 @@ jobs:
       # Restore from cache
       - restore_cache:
           keys: [frontend-build]
-      # Your job code here
       - run:
           name: Analyse frontend
           command: |
